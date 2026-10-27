@@ -1,33 +1,296 @@
 @import "tailwindcss";
 
 :root {
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color-scheme: light;
+  color: #163628;
 }
 
 body {
   margin: 0;
-  padding: 0;
-  background-color: #f8fafc;
-  color: #0f172a;
+  min-width: 320px;
   min-height: 100vh;
+  background-color: #f5f8f5;
+  background-image:
+    radial-gradient(at 10% 12%, rgba(20, 184, 166, 0.16) 0px, transparent 48%),
+    radial-gradient(at 92% 8%, rgba(16, 185, 129, 0.18) 0px, transparent 45%),
+    radial-gradient(at 52% 92%, rgba(56, 189, 248, 0.14) 0px, transparent 52%),
+    radial-gradient(at 88% 80%, rgba(167, 243, 208, 0.28) 0px, transparent 50%);
+  background-attachment: fixed;
 }
 
-/* Custom scrollbar and utilities */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+:focus-visible { outline: 3px solid #287c61; outline-offset: 4px; }
+
+/* Frosted Glass Sticky Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: 0 4px 20px -2px rgba(22, 75, 58, 0.04);
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f5f9;
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -0.8px;
+  color: #164b3a;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #1b5e48 0%, #164b3a 100%);
+  color: #fff;
+  border-radius: 50% 50% 12px 50%;
+  box-shadow: 0 4px 12px rgba(22, 75, 58, 0.25);
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+.nav-link {
+  padding: 10px 14px;
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #3b574a;
+  transition: all 0.2s ease;
+}
+
+.nav-link:hover, .nav-link-active {
+  background: rgba(233, 242, 235, 0.85);
+  color: #164b3a;
+  backdrop-filter: blur(8px);
+}
+
+.button-primary, .button-quiet {
+  min-height: 46px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  font-weight: 650;
+  font-size: 14px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.button-primary {
+  background: linear-gradient(135deg, #1b5e48 0%, #134434 100%);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(22, 75, 58, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.button-primary:hover {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #164e3c 0%, #0d3629 100%);
+  box-shadow: 0 6px 18px rgba(22, 75, 58, 0.28);
+}
+
+.button-quiet {
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  color: #164b3a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.button-quiet:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(52, 211, 153, 0.4);
+  transform: translateY(-1px);
+}
+
+.feed-intro {
+  padding: 32px 0 38px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(220, 232, 223, 0.6);
+}
+
+.feed-title {
+  font-family: 'Trebuchet MS', 'Segoe UI', Inter, sans-serif;
+  font-size: clamp(30px, 4.2vw, 52px);
+  line-height: 1.12;
+  letter-spacing: -1.8px;
+  font-weight: 750;
+  color: #164b3a;
+  max-width: 760px;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+}
+
+/* Frosted Glass Filter Panel */
+.filter-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  padding: 22px;
+  border-radius: 16px;
+  margin-bottom: 26px;
+  box-shadow: 
+    0 10px 30px -10px rgba(22, 75, 58, 0.06),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  color: #274b3d;
+}
+
+/* Glass Inputs & Controls */
+.field-control {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  border: 1px solid rgba(184, 203, 191, 0.6);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #163628;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: all 0.2s ease;
+}
+
+.field-control:focus {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: #287c61;
+  box-shadow: 0 0 0 3px rgba(40, 124, 97, 0.15);
+  outline: none;
+}
+
+/* Frosted Glass Donation Card */
+.donation-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px) saturate(175%);
+  -webkit-backdrop-filter: blur(16px) saturate(175%);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 18px;
+  box-shadow: 
+    0 8px 24px -6px rgba(20, 83, 45, 0.05),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.donation-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(52, 211, 153, 0.45);
+  box-shadow: 
+    0 20px 35px -10px rgba(16, 185, 129, 0.14),
+    inset 0 1px 0 0 rgba(255, 255, 255, 1);
+}
+
+.status-pill {
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: rgba(237, 240, 239, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  color: #44574d;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(6px);
+}
+
+.status-open {
+  background: rgba(16, 185, 129, 0.12);
+  color: #0d5f3f;
+  border-color: rgba(16, 185, 129, 0.25);
+}
+
+.pickup-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 22px;
+  background: rgba(241, 246, 242, 0.75);
+  border-top: 1px solid rgba(255, 255, 255, 0.65);
+  color: #415a50;
+  font-size: 13px;
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+}
+
+.pickup-urgent {
+  background: rgba(255, 243, 224, 0.85);
+  color: #92400e;
+  border-top-color: rgba(245, 158, 11, 0.2);
+}
+
+.card-action {
+  min-height: 50px;
+  text-align: left;
+  padding: 13px 22px;
+  color: #164b3a;
+  font-weight: 700;
+  font-size: 14px;
+  background: transparent;
+  border-top: 1px solid rgba(220, 232, 223, 0.5);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-action:hover {
+  background: rgba(233, 242, 235, 0.7);
+  color: #0c3629;
+  padding-left: 26px;
+}
+
+/* Glass Panels & Modals */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 15px 35px -10px rgba(22, 75, 58, 0.08),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 60;
+  background: #164b3a;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 8px;
+}
+
+.skip-link:focus { top: 10px; }
+
+@media (max-width: 639px) {
+  .feed-intro { padding: 12px 0 26px; }
+  .feed-title { letter-spacing: -1px; }
+  .filter-panel { padding: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
 }

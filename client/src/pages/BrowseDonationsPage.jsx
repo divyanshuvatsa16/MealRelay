@@ -57,25 +57,25 @@ export default function BrowseDonationsPage({ onSelectDonation, isOwnerView = fa
   };
 
   const pageTitle = isOwnerView
-    ? 'My Donation Postings'
+    ? 'My donations'
     : isClaimsView
-    ? 'My Reserved Surplus Food'
-    : 'Surplus Food Recovery Feed';
+    ? 'My pickups'
+    : 'Good food. Another chance to be shared.';
 
   const pageSubtitle = isOwnerView
     ? 'Track, inspect, and update surplus food offers posted by your organization.'
     : isClaimsView
     ? 'Surplus food contributions claimed by your NGO awaiting pickup verification or completed.'
-    : 'Active surplus food contributions verified for pickup by approved community organizations.';
+    : 'Find surplus food in your area. Approved organizations can reserve a donation and arrange pickup before its deadline.';
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header section */}
-      <div className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+      <div className={isOwnerView || isClaimsView ? 'mb-8' : 'feed-intro'}>
+        <h1 className="feed-title">
           {pageTitle}
         </h1>
-        <p className="text-xs sm:text-sm text-slate-600 mt-1">
+        <p className="text-base leading-relaxed text-slate-600 mt-4 max-w-2xl">
           {pageSubtitle}
         </p>
       </div>
@@ -90,7 +90,7 @@ export default function BrowseDonationsPage({ onSelectDonation, isOwnerView = fa
 
       {/* Error Alert */}
       {error && (
-        <div className="p-4 mb-6 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between text-xs sm:text-sm text-red-700">
+        <div role="alert" className="p-4 mb-6 bg-red-50 border border-red-200 rounded-xl flex items-center justify-between gap-4 text-sm text-red-700">
           <div className="flex items-center space-x-2">
             <span className="font-bold">Error:</span>
             <span>{error}</span>
@@ -105,7 +105,8 @@ export default function BrowseDonationsPage({ onSelectDonation, isOwnerView = fa
       )}
 
       {/* Loading Skeleton */}
-      {isLoading ? (
+      {!isLoading && !error && <p className="mb-5 text-sm text-slate-600" role="status">{pagination.total} {pagination.total === 1 ? 'donation' : 'donations'}{!isOwnerView && !isClaimsView ? ' available for pickup' : ''}</p>}
+      {error ? null : isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <div key={n} className="bg-white rounded-xl border border-slate-200 p-5 animate-pulse">
@@ -129,7 +130,7 @@ export default function BrowseDonationsPage({ onSelectDonation, isOwnerView = fa
             </svg>
           </div>
           <h3 className="text-base font-bold text-slate-900 mb-1">No surplus offers found</h3>
-          <p className="text-xs text-slate-500 mb-6">
+          <p className="text-sm leading-relaxed text-slate-600 mb-6">
             {isOwnerView
               ? "Your organization hasn't published any donations matching these criteria."
               : isClaimsView
