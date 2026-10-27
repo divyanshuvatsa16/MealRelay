@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL_UNPOOLED")
+}
+
+enum UserRole {
+  DONOR
+  NGO
+  ADMIN
+}
+
+enum OrganizationType {
+  DONOR
+  NGO
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum FoodType {
+  VEGETARIAN
+  NON_VEGETARIAN
+  OTHER
+}
+
+enum DonationStatus {
+  OPEN
+  CLAIMED
+  COMPLETED
+  EXPIRED
+  CANCELLED
+}
+
+model User {
+  id           String               @id @default(uuid())
+  name         String
+  email        String               @unique
+  passwordHash String
+  role         UserRole
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+  memberships  OrganizationMember[]
+  auditEvents  AuditEvent[]
+
+  @@index([email])
+  @@index([role])
+}
+
+model Organization {
+  id                String               @id @default(uuid())
+  name              String
+  type              OrganizationType
+  approvalStatus    ApprovalStatus       @default(PENDING)
+  address           String
+  locality          String
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  members           OrganizationMember[]
+  donationsCreated  Donation[]           @relation("DonorDonations")
+  donationsClaimed  Donation[]           @relation("ClaimedDonations")
+
+  @@index([type])
+  @@index([approvalStatus])
+  @@index([locality])
+}
+
+model OrganizationMember {
+  userId         String
+  organizationId String
+  membershipRole String       @default("OWNER")
+  createdAt      DateTime     @default(now())
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  @@id([userId, organizationId])
+  @@unique([userId, organizationId])
+  @@index([organizationId])
+  @@index([userId])
+}
+
+model Donation {
+  id                      String              @id @default(uuid())
+  donorOrganizationId     String
+  claimedByOrganizationId String?
+  title                   String
+  description             String
+  quantity                Float
+  unit                    String
+  foodType                FoodType
+  preparedAt              DateTime
+  consumeBy               DateTime
+  pickupDeadline          DateTime
+  status                  DonationStatus      @default(OPEN)
+  createdAt               DateTime            @default(now())
+  updatedAt               DateTime            @updatedAt
+
+  donorOrganization       Organization        @relation("DonorDonations", fields: [donorOrganizationId], references: [id], onDelete: Restrict)
+  claimedByOrganization   Organization?       @relation("ClaimedDonations", fields: [claimedByOrganizationId], references: [id], onDelete: SetNull)
+  pickupVerification      PickupVerification?
+  auditEvents             AuditEvent[]
+
+  @@index([status])
+  @@index([pickupDeadline])
+  @@index([donorOrganizationId])
+  @@index([claimedByOrganizationId])
+  @@index([status, pickupDeadline])
+  @@index([status, donorOrganizationId])
+  @@index([foodType])
+}
+
+model PickupVerification {
+  id          String    @id @default(uuid())
+  donationId  String    @unique
+  codeHash    String
+  attempts    Int       @default(0)
+  expiresAt   DateTime
+  verifiedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  donation    Donation  @relation(fields: [donationId], references: [id], onDelete: Cascade)
+
+  @@index([expiresAt])
+}
+
+model AuditEvent {
+  id             String          @id @default(uuid())
+  actorUserId    String?
+  donationId     String?
+  action         String
+  previousStatus DonationStatus?
+  newStatus      DonationStatus?
+  metadata       Json            @default("{}")
+  createdAt      DateTime        @default(now())
+
+  actorUser      User?           @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+  donation       Donation?       @relation(fields: [donationId], references: [id], onDelete: Cascade)
+
+  @@index([donationId])
+  @@index([actorUserId])
+  @@index([action])
+  @@index([createdAt])
+}
