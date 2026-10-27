@@ -37,8 +37,8 @@
 ## Quick Start
 
 ```bash
-git clone https://github.com/kunaljaiswal2461-lab/end_term_MealRelay.git
-cd end_term_MealRelay
+git clone https://github.com/divyanshuvatsa16/MealRelay.git
+cd MealRelay
 npm install && npm --prefix server install && npm --prefix client install
 npm run migrate
 npm run seed
@@ -83,7 +83,7 @@ Open `http://localhost:5173` in your browser.
 
 ## Repository
 
-- **Source Code**: [github.com/kunaljaiswal2461-lab/end_term_MealRelay](https://github.com/kunaljaiswal2461-lab/end_term_MealRelay)
+- **Source Code**: [github.com/divyanshuvatsa16/MealRelay](https://github.com/divyanshuvatsa16/MealRelay)
 - **Demo Video**: [youtu.be/WRoiqd7R-Bc](https://youtu.be/WRoiqd7R-Bc)
 
 ---
