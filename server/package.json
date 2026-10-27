@@ -1,0 +1,40 @@
+{
+  "name": "mealrelay-server",
+  "version": "1.0.0",
+  "description": "MealRelay Backend API - Surplus food recovery and distribution coordination platform",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node --watch src/server.js",
+    "start": "node src/server.js",
+    "build": "node scripts/prisma.js generate",
+    "postinstall": "node scripts/prisma.js generate",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "prisma:generate": "node scripts/prisma.js generate",
+    "prisma:migrate": "node scripts/prisma.js migrate dev",
+    "prisma:migrate:deploy": "node scripts/prisma.js migrate deploy",
+    "prisma:seed": "node prisma/seed.js",
+    "db:setup": "node scripts/prisma.js migrate deploy && node prisma/seed.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-cron": "^4.6.0",
+    "swagger-ui-express": "^5.0.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "prisma": "^5.22.0",
+    "supertest": "^7.0.0",
+    "vitest": "^2.1.8"
+  }
+}

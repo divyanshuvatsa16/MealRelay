@@ -1,0 +1,23 @@
+{
+  "name": "mealrelay-workspace",
+  "version": "1.0.0",
+  "description": "MealRelay - Surplus-food recovery and distribution coordination platform",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "dev": "node -e \"const { spawn } = require('child_process'); const s = spawn('npm', ['--prefix', 'server', 'run', 'dev'], { stdio: 'inherit', shell: true }); const c = spawn('npm', ['--prefix', 'client', 'run', 'dev'], { stdio: 'inherit', shell: true }); process.on('SIGINT', () => { s.kill(); c.kill(); process.exit(); });\"",
+    "build:client": "npm --prefix client run build",
+    "build": "npm --prefix server run build && npm run build:client",
+    "test:server": "npm --prefix server run test",
+    "test": "npm run test:server",
+    "smoke:neon": "node server/scripts/neon-smoke.js",
+    "seed": "npm --prefix server run prisma:seed",
+    "migrate": "npm --prefix server run prisma:migrate",
+    "migrate:deploy": "npm --prefix server run prisma:migrate:deploy"
+  },
+  "dependencies": {
+    "@neon/config": "^1.9.5",
+    "@neon/env": "^1.6.6"
+  }
+}
