@@ -110,19 +110,18 @@ button:disabled { cursor: not-allowed; }
 }
 
 .feed-intro {
-  padding: 32px 0 38px;
+  padding: 8rem 0;
   margin-bottom: 24px;
   border-bottom: 1px solid rgba(220, 232, 223, 0.6);
 }
 
 .feed-title {
   font-family: 'Trebuchet MS', 'Segoe UI', Inter, sans-serif;
-  font-size: clamp(30px, 4.2vw, 52px);
-  line-height: 1.12;
+  font-size: clamp(3rem, 10vw, 12rem);
+  line-height: 1.05;
   letter-spacing: -1.8px;
-  font-weight: 750;
+  font-weight: 900;
   color: #164b3a;
-  max-width: 760px;
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
 }
 
